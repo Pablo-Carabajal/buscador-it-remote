@@ -1,0 +1,74 @@
+name: Daily IT Remote Job Search
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # 11:00 AM Argentina (UTC-3)
+  workflow_dispatch:       # Ejecución manual desde la UI
+
+jobs:
+  run-job-search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.4.0
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Create required directories
+        run: |
+          mkdir -p logs
+          mkdir -p data
+          mkdir -p assets
+
+      - name: Download historial artifact (if exists)
+        uses: actions/download-artifact@v4.2.1
+        with:
+          name: historial_it
+          path: data/
+        continue-on-error: true
+
+      - name: Verify CV exists
+        run: |
+          if [ ! -f "assets/cv.pdf" ]; then
+            echo "ERROR: assets/cv.pdf no encontrado en el repositorio."
+            echo "Debes commitear el archivo assets/cv.pdf para que el sistema funcione."
+            exit 1
+          fi
+          echo "CV encontrado: $(ls -lh assets/cv.pdf)"
+
+      - name: Run IT job search
+        env:
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: "587"
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          NOMBRE_REMITENTE: ${{ secrets.NOMBRE_REMITENTE }}
+          CANDIDATO_EMAIL: ${{ secrets.CANDIDATO_EMAIL }}
+          RUTA_CV: assets/cv.pdf
+          RUTA_HISTORIAL: data/historial_it.db
+          RUTA_BLACKLIST: data/blacklist.txt
+          COOLDOWN_DIAS: "20"
+          MINIMO_ENVIOS_DIARIOS: "15"
+          DELAY_ENTRE_ENVIOS: "45"
+          MAX_PAGINAS_PORTAL: "5"
+          CATEGORIAS_IT: "IT,Desarrollo,Software,Backend,Frontend,Fullstack,DevOps,QA,Data Science,Mobile,Python,JavaScript,Node,React,Angular,Java,Spring"
+        run: python main.py
+
+      - name: Upload historial artifact
+        if: always()
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: historial_it
+          path: data/historial_it.db
+          retention-days: 30
+          overwrite: true
