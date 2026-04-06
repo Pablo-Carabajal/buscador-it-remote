@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.db
+.env
+logs/
+data/historial_*.db
+assets/cv.pdf
+*.log
+.pytest_cache/
+venv/
+.venv/

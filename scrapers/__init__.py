@@ -1,0 +1,3 @@
+from scrapers.remote_ok import ScraperRemoteOK
+from scrapers.we_work_remotely import ScraperWeWorkRemotely
+from scrapers.linkedin import ScraperLinkedIn

@@ -1,0 +1,86 @@
+[
+  {
+    "nombre": "Globant",
+    "email": "recruiting@globant.com",
+    "rubro": "IT / Software",
+    "direccion": "Remoto / Presencial",
+    "nota": "Empresa de IT líder en LATAM"
+  },
+  {
+    "nombre": "Mercado Libre",
+    "email": "empleos@mercadolibre.com",
+    "rubro": "E-commerce / IT",
+    "direccion": "Remoto",
+    "nota": "Busca desarrolladores regularmente"
+  },
+  {
+    "nombre": "PedidosYa",
+    "email": "jobs@pedidosya.com",
+    "rubro": "Foodtech / IT",
+    "direccion": "Remoto",
+    "nota": "Equipo de tecnología"
+  },
+  {
+    "nombre": "Cora",
+    "email": "careers@cora.com.br",
+    "rubro": "Fintech / IT",
+    "direccion": "Remoto",
+    "nota": "Startup fintech regional"
+  },
+  {
+    "nombre": "Ualá",
+    "email": "talento@uala.com.ar",
+    "rubro": "Fintech / IT",
+    "direccion": "Remoto",
+    "nota": "Fintech argentina"
+  },
+  {
+    "nombre": "Kavak",
+    "email": "jobs@kavak.com",
+    "rubro": "Marketplace / IT",
+    "direccion": "Remoto",
+    "nota": "Marketplace de autos usados"
+  },
+  {
+    "nombre": "Tata Consultancy Services",
+    "email": "recruitment.ar@tcs.com",
+    "rubro": "IT / Servicios",
+    "direccion": "Remoto",
+    "nota": "_multinacional de IT"
+  },
+  {
+    "nombre": "Accenture",
+    "email": "argentina.accenture@accenture.com",
+    "rubro": "Consultora / IT",
+    "direccion": "Remoto",
+    "nota": "Consultora multinaciona"
+  },
+  {
+    "nombre": "NTT Data",
+    "email": "recruiting@nttdata.com",
+    "rubro": "IT / Servicios",
+    "direccion": "Remoto",
+    "nota": "Empresa de servicios IT"
+  },
+  {
+    "nombre": "Globex",
+    "email": "empleos@globex.com.ar",
+    "rubro": "IT / Software",
+    "direccion": "San Francisco / Remoto",
+    "nota": "Empresa local de software"
+  },
+  {
+    "nombre": "Infocor Software",
+    "email": "infocorsoftware@gmail.com",
+    "rubro": "IT / Software",
+    "direccion": "San Francisco, Córdoba",
+    "nota": "Desarrollo de software local"
+  },
+  {
+    "nombre": "Cootap",
+    "email": "rrhh@cootap.com",
+    "rubro": "Cooperativa / IT",
+    "direccion": "San Francisco, Córdoba",
+    "nota": "Cooperativa de telecomunicaciones"
+  }
+]

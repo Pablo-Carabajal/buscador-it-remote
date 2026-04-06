@@ -1,0 +1,16 @@
+# IT / Desarrollo
+# Software
+# Backend
+# Frontend
+# Fullstack
+# DevOps
+# QA
+# Data Science
+# Mobile
+# Python
+# JavaScript
+# Node
+# React
+# Angular
+# Java
+# Spring

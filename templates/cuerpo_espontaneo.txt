@@ -1,0 +1,15 @@
+Estimados de {empresa},
+
+Mi nombre es {nombre} y me encuentro en búsqueda activa de oportunidades laborales en el área de IT y tecnología.
+
+Me dirijo a ustedes de manera espontánea para expresar mi interés en formar parte de su equipo. Cuento con experiencia en desarrollo backend, APIs REST, bases de datos y tecnologías emergentes.
+
+Adjunto mi currículum vitae para su consideración.
+
+Quedo a disposición para ampliar información o agendar una entrevista en el momento que ustedes consideren conveniente.
+
+Saludos cordiales,
+
+{nombre}
+Tel: +54 9 3564 375246
+Email: carabajalpabloezequiel@gmail.com
