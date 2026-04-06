@@ -9,7 +9,6 @@ from core.models import JobOffer, LocalCompany, SendRecord, EmailConfig
 from core.history_manager import HistoryManager
 from core.job_filter import JobFilter
 from core.email_sender import EmailSender
-from core.fallback import LocalCompanyFallback
 from core.reporter import Reporter
 
 from scrapers.remote_ok import ScraperRemoteOK
@@ -89,7 +88,6 @@ def ejecutar_ciclo_diario():
     ofertas_validas = filtro.filtrar(ofertas_raw, Config.CATEGORIAS)
     logging.info(f"Ofertas habilitadas para envío: {len(ofertas_validas)}")
     
-    MINIMO_ENVIOS_DIARIOS = Config.MINIMO_ENVIOS_DIARIOS
     envios_exitosos = 0
     envios_error = 0
     ofertas_sin_email = 0
@@ -134,42 +132,9 @@ def ejecutar_ciclo_diario():
         delay = random.uniform(Config.DELAY_ENTRE_ENVIOS - 15, Config.DELAY_ENTRE_ENVIOS + 15)
         time.sleep(delay)
 
-    logging.info(f"Fase portales: {envios_exitosos} enviados, {ofertas_sin_email} sin email de contacto")
+    logging.info(f"Fase portales: {envios_exitosos} enviados, {ofertas_sin_email} sin email (aplicar vía portal)")
 
-    faltantes = MINIMO_ENVIOS_DIARIOS - envios_exitosos
-    if faltantes > 0:
-        logging.info(
-            f"Envíos exitosos ({envios_exitosos}) < mínimo ({MINIMO_ENVIOS_DIARIOS}). "
-            f"Activando fallback para completar {faltantes} envíos..."
-        )
-        fallback = LocalCompanyFallback(Config.RUTA_EMPRESAS_LOCALES, history)
-        empresas = fallback.obtener_empresas_habilitadas(faltantes)
-        logging.info(f"Empresas habilitadas para fallback: {len(empresas)}")
-
-        for empresa in empresas:
-            logging.info(f"Enviando a empresa: {empresa.nombre}")
-            exito = sender.enviar_cv_directo(empresa)
-            estado = "enviado" if exito else "error"
-            record = SendRecord(
-                empresa=empresa.nombre,
-                email_destino=empresa.email,
-                fecha_envio=date.today(),
-                tipo="empresa_local",
-                estado=estado,
-                notas=f"Rubro: {empresa.rubro}"
-            )
-            history.registrar_envio(record)
-            if exito:
-                envios_exitosos += 1
-            else:
-                envios_error += 1
-
-            delay = random.uniform(Config.DELAY_ENTRE_FALLBACK - 30, Config.DELAY_ENTRE_FALLBACK + 30)
-            time.sleep(delay)
-    else:
-        logging.info(f"Mínimo diario alcanzado ({envios_exitosos}). No se activa fallback.")
-
-    logging.info(f"Ciclo completado. Éxitos: {envios_exitosos}, Errores: {envios_error}, Sin email: {ofertas_sin_email}")
+    logging.info(f"Ciclo completado. Éxitos: {envios_exitosos}, Errores: {envios_error}, Pendientes portal: {ofertas_sin_email}")
     logging.info("=" * 50)
 
 

@@ -20,7 +20,7 @@ class Config:
 
     COOLDOWN_DIAS = int(os.getenv("COOLDOWN_DIAS") or "20")
     MAX_FALLBACK_POR_DIA = int(os.getenv("MAX_FALLBACK_POR_DIA") or "10")
-    MINIMO_ENVIOS_DIARIOS = int(os.getenv("MINIMO_ENVIOS_DIARIOS") or "10")
+    MINIMO_ENVIOS_DIARIOS = int(os.getenv("MINIMO_ENVIOS_DIARIOS") or "15")
     DELAY_ENTRE_ENVIOS = int(os.getenv("DELAY_ENTRE_ENVIOS") or "45")
     DELAY_ENTRE_FALLBACK = int(os.getenv("DELAY_ENTRE_FALLBACK") or "90")
     MAX_PAGINAS_PORTAL = int(os.getenv("MAX_PAGINAS_PORTAL") or "5")
