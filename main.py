@@ -81,6 +81,7 @@ def ejecutar_ciclo_diario():
         cuerpo_espontaneo_template=Config.CUERPO_ESPONTANEO_TEMPLATE
     )
     sender = EmailSender(email_config)
+    reporter = Reporter(history, email_config)
     
     ofertas_raw = buscar_ofertas_todos_portales()
     logging.info(f"Ofertas encontradas: {len(ofertas_raw)}")
@@ -91,13 +92,12 @@ def ejecutar_ciclo_diario():
     envios_exitosos = 0
     envios_error = 0
     ofertas_sin_email = 0
+    registros = []
 
-    # --- Fase 1: procesar ofertas de portales ---
     for oferta in ofertas_validas:
         logging.info(f"Procesando oferta: {oferta.titulo} en {oferta.empresa}")
 
         if not oferta.email_contacto:
-            # Postular vía portal (marcar para aplicar manualmente)
             ofertas_sin_email += 1
             record = SendRecord(
                 empresa=oferta.empresa if oferta.empresa != "desconocida" else oferta.id,
@@ -109,6 +109,7 @@ def ejecutar_ciclo_diario():
                 notas=f"Sin email - aplicar vía portal. Portal: {oferta.portal_origen}"
             )
             history.registrar_envio(record)
+            registros.append(record)
             continue
 
         exito = sender.enviar_cv(oferta, oferta.email_contacto)
@@ -124,6 +125,8 @@ def ejecutar_ciclo_diario():
             notas=f"Portal: {oferta.portal_origen}"
         )
         history.registrar_envio(record)
+        registros.append(record)
+        
         if exito:
             envios_exitosos += 1
         else:
@@ -133,9 +136,23 @@ def ejecutar_ciclo_diario():
         time.sleep(delay)
 
     logging.info(f"Fase portales: {envios_exitosos} enviados, {ofertas_sin_email} sin email (aplicar vía portal)")
-
     logging.info(f"Ciclo completado. Éxitos: {envios_exitosos}, Errores: {envios_error}, Pendientes portal: {ofertas_sin_email}")
     logging.info("=" * 50)
+
+    motivo = None
+    if envios_exitosos == 0 and ofertas_sin_email == 0:
+        motivo = "No se encontraron ofertas disponibles"
+    elif ofertas_sin_email > 0 and envios_exitosos == 0:
+        motivo = f"{ofertas_sin_email} ofertas requieren aplicación manual vía portal"
+
+    reporter.enviar_reporte(
+        Config.CANDIDATO_EMAIL,
+        date.today(),
+        envios_exitosos,
+        envios_error,
+        registros,
+        motivo
+    )
 
 
 def main():
