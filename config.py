@@ -36,3 +36,10 @@ class Config:
     ASUNTO_OFERTA_TEMPLATE = "templates/asunto_oferta.txt"
     CUERPO_OFERTA_TEMPLATE = "templates/cuerpo_oferta.txt"
     CUERPO_ESPONTANEO_TEMPLATE = "templates/cuerpo_espontaneo.txt"
+
+    COMPUTRABAJO_EMAIL = os.getenv("COMPUTRABAJO_EMAIL")
+    COMPUTRABAJO_PASSWORD = os.getenv("COMPUTRABAJO_PASSWORD")
+    INFOJOBS_EMAIL = os.getenv("INFOJOBS_EMAIL")
+    INFOJOBS_PASSWORD = os.getenv("INFOJOBS_PASSWORD")
+    EMPLEOSIT_EMAIL = os.getenv("EMPLEOSIT_EMAIL")
+    EMPLEOSIT_PASSWORD = os.getenv("EMPLEOSIT_PASSWORD")

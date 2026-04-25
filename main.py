@@ -14,6 +14,9 @@ from core.reporter import Reporter
 from scrapers.remote_ok import ScraperRemoteOK
 from scrapers.we_work_remotely import ScraperWeWorkRemotely
 from scrapers.linkedin import ScraperLinkedIn
+from scrapers.computrabajo import ScraperComputrabajo
+from scrapers.infojobs import ScraperInfoJobs
+from scrapers.empleosit import ScraperEmpleosIT
 
 
 def setup_logging():
@@ -35,6 +38,21 @@ def buscar_ofertas_todos_portales() -> list[JobOffer]:
         ScraperWeWorkRemotely(),
         ScraperLinkedIn()
     ]
+    
+    if Config.COMPUTRABAJO_EMAIL and Config.COMPUTRABAJO_PASSWORD:
+        scrapers.append(ScraperComputrabajo(Config.COMPUTRABAJO_EMAIL, Config.COMPUTRABAJO_PASSWORD))
+    else:
+        logging.warning("COMPUTRABAJO_EMAIL/PASSWORD no configurados, omitiendo scraper")
+    
+    if Config.INFOJOBS_EMAIL and Config.INFOJOBS_PASSWORD:
+        scrapers.append(ScraperInfoJobs(Config.INFOJOBS_EMAIL, Config.INFOJOBS_PASSWORD))
+    else:
+        logging.warning("INFOJOBS_EMAIL/PASSWORD no configurados, omitiendo scraper")
+    
+    if Config.EMPLEOSIT_EMAIL and Config.EMPLEOSIT_PASSWORD:
+        scrapers.append(ScraperEmpleosIT(Config.EMPLEOSIT_EMAIL, Config.EMPLEOSIT_PASSWORD))
+    else:
+        logging.warning("EMPLEOSIT_EMAIL/PASSWORD no configurados, omitiendo scraper")
     
     todas_ofertas = []
     
